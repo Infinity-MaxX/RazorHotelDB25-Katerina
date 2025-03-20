@@ -361,3 +361,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/RazorHotelDB25-Katerina/Helpers/ConnectionManager.cs
