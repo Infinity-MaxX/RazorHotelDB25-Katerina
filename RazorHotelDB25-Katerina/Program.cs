@@ -1,7 +1,11 @@
+using RazorHotelDB25_Katerina.Interfaces;
+using RazorHotelDB25_Katerina.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddTransient<IHotelService, HotelService>();
 
 var app = builder.Build();
 

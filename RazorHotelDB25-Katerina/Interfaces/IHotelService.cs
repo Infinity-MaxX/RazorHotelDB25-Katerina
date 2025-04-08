@@ -9,14 +9,14 @@ namespace RazorHotelDB25_Katerina.Interfaces
         /// henter alle hoteller fra databasen
         /// </summary>
         /// <returns>Liste af hoteller</returns>
-        List<Hotel> GetAllHotel();
+        Task<List<Hotel>> GetAllHotelAsync();
 
         /// <summary>
         /// Henter et specifik hotel fra database 
         /// </summary>
         /// <param name="hotelNr">Udpeger det hotel der ønskes fra databasen</param>
         /// <returns>Det fundne hotel eller null hvis hotellet ikke findes</returns>
-        Hotel GetHotelFromId(int hotelNr);
+        Task<Hotel> GetHotelFromIdAsync(int hotelNr);
 
         /// <summary>
         /// Indsætter et nyt hotel i databasen
@@ -38,13 +38,13 @@ namespace RazorHotelDB25_Katerina.Interfaces
         /// </summary>
         /// <param name="hotelNr">Nummer på det hotel der skal slettes</param>
         /// <returns>Det hotel der er slettet fra databasen, returnere null hvis hotellet ikke findes</returns>
-        Hotel DeleteHotel(int hotelNr);
+        Task<Hotel> DeleteHotelAsync(int hotelNr);
 
         /// <summary>
         /// henter alle hoteller fra databasen
         /// </summary>
         /// <param name="name">Angiver navn på hotel der hentes fra databasen</param>
         /// <returns></returns>
-        List<Hotel> GetHotelsByName(string name);
+        Task<List<Hotel>> GetHotelsByNameAsync(string name);
     }
 }

@@ -3,7 +3,7 @@
     public class Hotel
     {
         #region Instances
-
+        
         #endregion
 
         #region Properties

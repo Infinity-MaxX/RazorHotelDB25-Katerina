@@ -1,0 +1,30 @@
+﻿@page
+@using RazorHotelDB25_Katerina.Models;
+@model RazorHotelDB25_Katerina.Pages.Hotels.ShowHotelsModel
+@{
+	ViewData["Title"] = "ShowHotels";
+}
+
+<h1>Hotels</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Navn</th>
+            <th>Adresse</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Hotel hotel in Model.Hotels)
+        {
+            <tr>
+                <td>@hotel.HotelNr</td>
+                <td>@hotel.Navn</td>
+                <td>@hotel.Adresse</td>
+                <td><a asp-page="EditHotel" asp-route-id="@hotel.HotelNr">Edit</a></td>
+                <td><a asp-page="DeleteHotel" asp-route-id="@hotel.HotelNr">Delete</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

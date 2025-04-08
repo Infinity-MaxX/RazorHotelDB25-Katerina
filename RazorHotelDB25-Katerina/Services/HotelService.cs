@@ -20,12 +20,12 @@ namespace RazorHotelDB25_Katerina.Services
         #region Constructor
         public HotelService()
         {
-            _hoteller = GetAllHotel();
+            
         }
         #endregion
 
         #region Methods
-        public List<Hotel> GetAllHotel()
+        async public Task<List<Hotel>> GetAllHotelAsync()
         {
             List<Hotel> hoteller = new List<Hotel>();
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -33,9 +33,9 @@ namespace RazorHotelDB25_Katerina.Services
                 try
                 {
                     SqlCommand command = new SqlCommand(queryString, connection);
-                    command.Connection.Open();
-                    SqlDataReader reader = command.ExecuteReader();
-                    while (reader.Read())
+                    await command.Connection.OpenAsync();
+                    SqlDataReader reader = await command.ExecuteReaderAsync();
+                    while (await reader.ReadAsync())
                     {
                         int hotelNr = reader.GetInt32("Hotel_No");
                         string hotelNavn = reader.GetString("Name");
@@ -43,7 +43,7 @@ namespace RazorHotelDB25_Katerina.Services
                         Hotel hotel = new Hotel(hotelNr, hotelNavn, hotelAdr);
                         hoteller.Add(hotel);
                     }
-                    reader.Close();
+                    await reader.CloseAsync();
                 }
                 catch (SqlException sqlExp)
                 {
@@ -61,7 +61,7 @@ namespace RazorHotelDB25_Katerina.Services
             return hoteller;
         }
 
-        public Hotel? GetHotelFromId(int hotelNr)
+        public async Task<Hotel?> GetHotelFromIdAsync(int hotelNr)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -72,17 +72,17 @@ namespace RazorHotelDB25_Katerina.Services
                 {
                     SqlCommand command = new SqlCommand(queryString + " WHERE hotel_no = @ID", connection);
                     command.Parameters.AddWithValue("@ID", hotelNr);
-                    connection.Open();
-                    SqlDataReader reader = command.ExecuteReader();
+                    await connection.OpenAsync();
+                    SqlDataReader reader = await command.ExecuteReaderAsync();
 
-                    if (reader.Read())
+                    if (await reader.ReadAsync())
                     {
                         int hNr = reader.GetInt32("Hotel_No");
                         string hotelNavn = reader.GetString("Name");
                         string hotelAdr = reader.GetString("Address");
                         hotel = new Hotel(hNr, hotelNavn, hotelAdr);
                     }
-                    reader.Close();
+                    await reader.CloseAsync();
                 }
                 catch (SqlException sqlExp)
                 {
@@ -169,10 +169,10 @@ namespace RazorHotelDB25_Katerina.Services
                 return true;
             }
         }
-        public Hotel DeleteHotel(int hotelNr)
+        public Task<Hotel> DeleteHotelAsync(int hotelNr)
         { // kan ikke fjerne hotel med værelser
 
-            Hotel? hotel = GetHotelFromId(hotelNr);
+            Task<Hotel?> hotel = GetHotelFromIdAsync(hotelNr);
 
             if (hotel == null) { return null; }
 
@@ -205,7 +205,7 @@ namespace RazorHotelDB25_Katerina.Services
                 return hotel;
             }
         }
-        public List<Hotel> GetHotelsByName(string name)
+        public async Task<List<Hotel>> GetHotelsByNameAsync(string name)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -214,9 +214,9 @@ namespace RazorHotelDB25_Katerina.Services
                 {
                     SqlCommand command = new SqlCommand(queryString + " where Name like @Search", connection);
                     command.Parameters.AddWithValue("@Search", "%" + name + "%");
-                    command.Connection.Open();
-                    SqlDataReader reader = command.ExecuteReader();
-                    while (reader.Read()) // reads from data not from console
+                    await command.Connection.OpenAsync();
+                    SqlDataReader reader = await command.ExecuteReaderAsync();
+                    while (await reader.ReadAsync()) // reads from data not from console
                     {
                         int hotelNr = reader.GetInt32("Hotel_No");
                         string hotelNavn = reader.GetString("Name");
@@ -224,7 +224,7 @@ namespace RazorHotelDB25_Katerina.Services
                         Hotel hotel = new Hotel(hotelNr, hotelNavn, hotelAdr);
                         hoteller.Add(hotel);
                     }
-                    reader.Close();
+                    await reader.CloseAsync();
                 }
                 catch (SqlException sqlExp)
                 {
