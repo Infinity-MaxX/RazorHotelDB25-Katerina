@@ -100,7 +100,7 @@ namespace RazorHotelDB25_Katerina.Services
             }
         }
 
-        public bool CreateHotel(Hotel hotel)
+        public bool CreateHotelAsync(Hotel hotel)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -139,7 +139,7 @@ namespace RazorHotelDB25_Katerina.Services
             }
         }
 
-        public bool UpdateHotel(Hotel hotel, int hotelNr)
+        public bool UpdateHotelAsync(Hotel hotel, int hotelNr)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
