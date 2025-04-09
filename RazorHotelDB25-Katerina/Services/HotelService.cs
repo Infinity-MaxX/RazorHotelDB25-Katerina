@@ -112,9 +112,9 @@ namespace RazorHotelDB25_Katerina.Services
                     command.Parameters.AddWithValue("@Adresse", hotel.Adresse);
                     await connection.OpenAsync();
 
-                    int noRows = await command.ExecuteNonQueryAsync();
+                    int numberOfRows = await command.ExecuteNonQueryAsync();
 
-                    return noRows > 0;
+                    return numberOfRows > 0;
                 }
                 catch (SqlException sqlExp)
                 {
@@ -140,12 +140,16 @@ namespace RazorHotelDB25_Katerina.Services
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand(updateSql, connection);
-                    cmd.Parameters.AddWithValue("@ID", hotelNr);
-                    cmd.Parameters.AddWithValue("@Name", hotel.Navn);
-                    cmd.Parameters.AddWithValue("@Address", hotel.Adresse);
+                    SqlCommand command = new SqlCommand(updateSql, connection);
+                    command.Parameters.AddWithValue("@ID", hotelNr);
+                    command.Parameters.AddWithValue("@Name", hotel.Navn);
+                    command.Parameters.AddWithValue("@Address", hotel.Adresse);
                     await connection.OpenAsync();
-                    await cmd.ExecuteNonQueryAsync();
+
+                    int numberOfRows = await command.ExecuteNonQueryAsync();
+
+                    return numberOfRows > 0;
+
                 }
                 catch (SqlException sqlExp)
                 {
