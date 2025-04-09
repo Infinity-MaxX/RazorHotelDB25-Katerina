@@ -31,7 +31,7 @@ namespace RazorHotelDB25_Katerina.Pages.Hotels
         public async Task<IActionResult> OnPostAsync()
         {
             await _hotelService.UpdateHotelAsync(Hotel, Hotel.HotelNr);
-            return Redirect("ShowBoats");
+            return Redirect("ShowHotels");
         }
         #endregion
     }
