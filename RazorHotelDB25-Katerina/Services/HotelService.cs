@@ -13,7 +13,7 @@ namespace RazorHotelDB25_Katerina.Services
         private string queryString = "SELECT Hotel_No, Name, Address FROM Hotel";
         private string insertSql = "INSERT INTO Hotel Values(@ID, @Navn, @Adresse)";
         private string deleteSql = "DELETE FROM Hotel WHERE Hotel_No = @ID";
-        private string updateSql = "UPDATE Hotel SET Name = @Name, Address = @Address WHERE Hotel_No = @ID";
+        private string updateSql = "UPDATE Hotel SET Name = @Navn, Address = @Adresse WHERE Hotel_No = @ID";
         private string connectionString = ConnectionManager.Connection;
         #endregion
 
@@ -141,15 +141,15 @@ namespace RazorHotelDB25_Katerina.Services
                 try
                 {
                     SqlCommand command = new SqlCommand(updateSql, connection);
-                    command.Parameters.AddWithValue("@ID", hotelNr);
-                    command.Parameters.AddWithValue("@Name", hotel.Navn);
-                    command.Parameters.AddWithValue("@Address", hotel.Adresse);
                     await connection.OpenAsync();
+
+                    command.Parameters.AddWithValue("@ID", hotelNr);
+                    command.Parameters.AddWithValue("@Navn", hotel.Navn);
+                    command.Parameters.AddWithValue("@Adresse", hotel.Adresse);
 
                     int numberOfRows = await command.ExecuteNonQueryAsync();
 
                     return numberOfRows > 0;
-
                 }
                 catch (SqlException sqlExp)
                 {

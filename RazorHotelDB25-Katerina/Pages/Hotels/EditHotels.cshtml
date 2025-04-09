@@ -1,12 +1,16 @@
 ﻿@page
 @model RazorHotelDB25_Katerina.Pages.Hotels.EditHotelsModel
 @{
-    ViewData["Title"] = "EditBoat";
+    ViewData["Title"] = "EditHotels";
 }
 
 <form method="post" enctype="multipart/form-data">
     <div class="form-group">
         <div asp-validation-summary="All" class="text-danger"></div>
+        <label asp-for="@Model.Hotel.HotelNr" class="control-label"></label>
+        <input asp-for="@Model.Hotel.HotelNr" class="form-control" required="true" readonly="true" />
+    </div>
+    <div class="form-group">
         <label asp-for="@Model.Hotel.Navn" class="control-label"></label>
         <input asp-for="@Model.Hotel.Navn" class="form-control" required="true" />
     </div>
