@@ -23,7 +23,7 @@ namespace RazorHotelDB25_Katerina.Interfaces
         /// </summary>
         /// <param name="hotel">hotellet der skal indsættes</param>
         /// <returns>Sand hvis der er gået godt ellers falsk</returns>
-        bool CreateHotelAsync(Hotel hotel);
+        Task<bool> CreateHotelAsync(Hotel hotel);
 
         /// <summary>
         /// Opdaterer en hotel i databasen
@@ -31,7 +31,7 @@ namespace RazorHotelDB25_Katerina.Interfaces
         /// <param name="hotel">De nye værdier til hotellet</param>
         /// <param name="hotelNr">Nummer på den hotel der skal opdateres</param>
         /// <returns>Sand hvis der er gået godt ellers falsk</returns>
-        bool UpdateHotelAsync(Hotel hotel, int hotelNr);
+        Task<bool> UpdateHotelAsync(Hotel hotel, int hotelNr);
 
         /// <summary>
         /// Sletter et hotel fra databasen

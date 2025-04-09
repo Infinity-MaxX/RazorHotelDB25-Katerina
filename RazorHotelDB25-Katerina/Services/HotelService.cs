@@ -100,7 +100,7 @@ namespace RazorHotelDB25_Katerina.Services
             }
         }
 
-        public bool CreateHotelAsync(Hotel hotel)
+        public async Task<bool> CreateHotelAsync(Hotel hotel)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -110,16 +110,11 @@ namespace RazorHotelDB25_Katerina.Services
                     command.Parameters.AddWithValue("@ID", hotel.HotelNr);
                     command.Parameters.AddWithValue("@Navn", hotel.Navn);
                     command.Parameters.AddWithValue("@Adresse", hotel.Adresse);
-                    connection.Open();
-                    command.ExecuteNonQuery();
+                    await connection.OpenAsync();
 
-                    /*
-                    if (!_hoteller.Contains(hotel))
-                    {
-                        _hoteller.Add(hotel);
-                    }
-                    return false;
-                    */
+                    int noRows = await command.ExecuteNonQueryAsync();
+
+                    return noRows > 0;
                 }
                 catch (SqlException sqlExp)
                 {
@@ -139,7 +134,7 @@ namespace RazorHotelDB25_Katerina.Services
             }
         }
 
-        public bool UpdateHotelAsync(Hotel hotel, int hotelNr)
+        public async Task<bool> UpdateHotelAsync(Hotel hotel, int hotelNr)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -149,8 +144,8 @@ namespace RazorHotelDB25_Katerina.Services
                     cmd.Parameters.AddWithValue("@ID", hotelNr);
                     cmd.Parameters.AddWithValue("@Name", hotel.Navn);
                     cmd.Parameters.AddWithValue("@Address", hotel.Adresse);
-                    connection.Open();
-                    cmd.ExecuteNonQuery();
+                    await connection.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
                 }
                 catch (SqlException sqlExp)
                 {
@@ -169,40 +164,40 @@ namespace RazorHotelDB25_Katerina.Services
                 return true;
             }
         }
-        public Task<Hotel> DeleteHotelAsync(int hotelNr)
+        public async Task<Hotel> DeleteHotelAsync(int hotelNr)
         { // kan ikke fjerne hotel med værelser
 
-            Task<Hotel?> hotel = GetHotelFromIdAsync(hotelNr);
+            Hotel toDelete = await GetHotelFromIdAsync(hotelNr);
 
-            if (hotel == null) { return null; }
+            if (toDelete == null) { return null; }
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
                 {
                     SqlCommand command = new SqlCommand(deleteSql, connection);
-                    // command.Parameters.Remove(GetHotelFromId(hotelNr));
                     command.Parameters.AddWithValue("@ID", hotelNr);
-                    connection.Open();
+                    await connection.OpenAsync();
 
-                    int numberOfRows = command.ExecuteNonQuery();
+                    int numberOfRows = await command.ExecuteNonQueryAsync();
                     if (numberOfRows == 0) { return null; }
+                    return toDelete;
                 }
                 catch (SqlException sqlExp)
                 {
                     Console.WriteLine("Database error" + sqlExp.Message);
-                    hotel = null;
+                    toDelete = null;
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("Generel fejl: " + ex.Message);
-                    hotel = null;
+                    toDelete = null;
                 }
                 finally
                 {
 
                 }
-                return hotel;
+                return null;
             }
         }
         public async Task<List<Hotel>> GetHotelsByNameAsync(string name)

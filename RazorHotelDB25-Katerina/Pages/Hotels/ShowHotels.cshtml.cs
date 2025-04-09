@@ -31,7 +31,7 @@ namespace RazorHotelDB25_Katerina.Pages.Hotels
         /// <summary>
         /// A delete function as one does not need an extra page to delete a hotel.
         /// </summary>
-        public async Task<IActionResult> OnPostDelete(int DeleteNo)
+        public async Task<IActionResult> OnGetDelete(int DeleteNo)
         {
             await _hotelService.DeleteHotelAsync(DeleteNo);
             return RedirectToPage("ShowHotels");

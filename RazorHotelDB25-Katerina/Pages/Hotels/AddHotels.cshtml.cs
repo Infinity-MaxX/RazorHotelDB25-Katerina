@@ -8,7 +8,7 @@ namespace RazorHotelDB25_Katerina.Pages.Hotels
     public class AddHotelsModel : PageModel
     {
         #region Instances
-        private IHotelService _internalService;
+        private IHotelService _hotelService;
         #endregion
 
         #region Properties
@@ -19,7 +19,7 @@ namespace RazorHotelDB25_Katerina.Pages.Hotels
         #region Constructor
         public AddHotelsModel(IHotelService hotelService)
         {
-            _internalService = hotelService;
+            _hotelService = hotelService;
         }
         #endregion
 
@@ -30,7 +30,7 @@ namespace RazorHotelDB25_Katerina.Pages.Hotels
         }
         public async Task<IActionResult> OnPostAsync()
         {
-            _internalService.CreateHotelAsync(new Hotel(Hotel.HotelNr, Hotel.Navn, Hotel.Adresse));
+            await _hotelService.CreateHotelAsync(new Hotel(Hotel.HotelNr, Hotel.Navn, Hotel.Adresse));
             return RedirectToPage("ShowHotels");
         }
         #endregion
