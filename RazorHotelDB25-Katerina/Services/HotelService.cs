@@ -165,7 +165,6 @@ namespace RazorHotelDB25_Katerina.Services
                 {
 
                 }
-                return true;
             }
         }
         public async Task<Hotel> DeleteHotelAsync(int hotelNr)
