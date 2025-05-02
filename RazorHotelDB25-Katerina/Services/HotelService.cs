@@ -130,7 +130,6 @@ namespace RazorHotelDB25_Katerina.Services
                 {
 
                 }
-                return true;
             }
         }
 
@@ -232,7 +231,6 @@ namespace RazorHotelDB25_Katerina.Services
                 catch (Exception ex)
                 {
                     Console.WriteLine("Generel fejl: " + ex.Message);
-
                 }
                 finally { }
                 return hoteller;
